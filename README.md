@@ -1,11 +1,9 @@
-# algomingle
-
 # AlgoMingle - Blockchain-Powered Secure Messenger
 
 ## Architecture
 This app is built using an AI-orchestrated development system:
-- **AI Orchestrator**: [fbratten/ai-orchestrator](https://github.com/fbratten/ai-orchestrator)
-- **Development Playbook**: [fbratten/development-playbook](https://github.com/fbratten/development-playbook)
+- **AI Orchestrator**: [fbratten/ai-orchestrator-am](https://github.com/fbratten/ai-orchestrator-am)
+- **Development Playbook**: [fbratten/development-playbook-am](https://github.com/fbratten/development-playbook-am)
 
 ## Development Process
 1. AI Orchestrator reads prompts from the playbook
