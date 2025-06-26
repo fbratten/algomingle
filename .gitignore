@@ -1,0 +1,53 @@
+# OSX
+.DS_Store
+
+# Android/IntelliJ
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+fastlane/readme.md
+
+# Bundle artifacts
+*.jsbundle
+
+# React Native
+.expo/
+dist/
+*.orig.*
+web-build/
+
+# Testing
+coverage/
+.jest/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Android specific
+android/app/debug/
+android/app/release/
+android/.gradle/
+android/captures/
+android/local.properties
+
+# Temporary files
+.temp/
+.cache/
+*.log
