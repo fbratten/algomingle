@@ -1,0 +1,75 @@
+﻿name: Auto-manage external interactions
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  auto-close:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Check if external
+        id: check
+        run: |
+          if [ "${{ github.actor }}" != "fbratten" ]; then
+            echo "external=true" >> $GITHUB_OUTPUT
+          else
+            echo "external=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Close external issues
+        if: steps.check.outputs.external == 'true' && github.event_name == 'issues'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '## Thank you for your interest!\n\nThis repository is not accepting issues at this time. Please use the **Discussions** tab for questions or feedback.\n\nSee [CONTRIBUTING.md](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/blob/main/CONTRIBUTING.md) for more information.'
+            });
+      
+      - name: Close external PRs
+        if: steps.check.outputs.external == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.pulls.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.pull.number,
+              state: 'closed'
+            });
+            
+            github.rest.pulls.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.pull.number,
+              body: '## Thank you for your interest!\n\nThis repository is not accepting pull requests from external contributors at this time.\n\nSee [CONTRIBUTING.md](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/blob/main/CONTRIBUTING.md) for more information.'
+            });
+
+      - name: Label external contributions
+        if: steps.check.outputs.external == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['external-contribution']
+            });
+
